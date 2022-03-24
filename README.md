@@ -1,5 +1,16 @@
 # emory_app
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/a19b337a-c9db-4b65-a5cd-772152d2d9fa/deploy-status)](https://app.netlify.com/sites/emory-rafata/deploys)
+
+## Demo
+
+Check the demo: [https://emory-rafata.netlify.app](https://emory-rafata.netlify.app)
+
+## Description
+
+**Emory App** is an employee database application for Emory company. Registered users can
+login and view all employee databases but the logged in user can only edit their own profile.
+
 ## Build Setup
 
 ```bash
