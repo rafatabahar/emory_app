@@ -1,7 +1,6 @@
 <template>
   <div class="h-screen flex flex-col">
     <Header />
-    <!-- component -->
     <div class="bg-white p-8 rounded-md w-full">
       <div class=" flex items-center justify-between pb-6">
         <div>
@@ -130,8 +129,10 @@ export default {
     }
   },
   methods: {
-    movePage(to){
-      window.location = '/?page=' + to;
+    async movePage(to){
+      const { data } = await this.$axios.get('/users?page='+to);
+
+      this.users = data;
     }
   },
 }
