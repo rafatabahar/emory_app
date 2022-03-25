@@ -81,21 +81,21 @@
                   Showing {{ (users.page * users.per_page) - users.per_page + 1 }} to {{ users.page * users.per_page }} of {{ users.total }} Entries
               </span>
               <div class="inline-flex mt-2 xs:mt-0">
-                <button 
+                <AppButton
                   :disabled="users.page-1 <= 0"
-                  :class="{'cursor-not-allowed opacity-50' : users.page-1 <= 0 }"
-                  class="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-l"
-                  @click="movePage(users.page-1)">
-                    Prev
-                </button>
+                  classes="rounded-r-none text-sm"
+                  :is-loading="pageLoading.prev"
+                  @click="movePage(users.page-1);pageLoading.prev=true">
+                  Prev
+                </AppButton>
                 &nbsp; &nbsp;
-                <button
-                  :disabled="users.page == users.total_pages"
-                  :class="{'cursor-not-allowed opacity-50' : users.page == users.total_pages }"
-                  class="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-r"
-                  @click="movePage(users.page+1)">
-                    Next
-                </button>
+                <AppButton
+                  :disabled="users.page >= users.total_pages"
+                  classes="rounded-l-none text-sm"
+                  :is-loading="pageLoading.next"
+                  @click="movePage(users.page+1);pageLoading.next=true">
+                  Next
+                </AppButton>
               </div>
             </div>
           </div>
@@ -107,7 +107,9 @@
 </template>
 
 <script>
+import AppButton from '~/components/AppButton.vue';
 export default {
+  components: { AppButton },
   name: 'IndexPage',
   async asyncData({$axios, route, $auth}) {
     const page = route.query.page || 1;
@@ -125,14 +127,23 @@ export default {
     return {
       users: {
         data: []
+      },
+      pageLoading: {
+        prev: false,
+        next: false
       }
     }
   },
   methods: {
     async movePage(to){
+      // this.pageLoading = true;
       const { data } = await this.$axios.get('/users?page='+to);
 
       this.users = data;
+      this.pageLoading = {
+        prev: false,
+        next: false
+      };
     }
   },
 }
